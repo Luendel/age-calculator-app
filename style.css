@@ -169,11 +169,11 @@
     }
 
     .middle .button svg {
-        scale: 0.75;
+        scale: 0.8;
     }
 
     .middle .button svg g {
-        stroke-width: 4;
+        stroke-width: 2;
     }
 
     .middle .divisor:nth-of-type(2) {
