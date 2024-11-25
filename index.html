@@ -3,27 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+    font-family: 'Poppins';
+    src: url('/assets/fonts/Poppins-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/assets/fonts/Poppins-Italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/assets/fonts/Poppins-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+  }
   
-  <title>Frontend Mentor | Age calculator app</title>
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/assets/fonts/Poppins-BoldItalic.ttf') format('truetype');
+    font-weight: 700;
+    font-style: italic;
+  }
 
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/assets/fonts/Poppins-ExtraBold.ttf') format('truetype');
+    font-weight: 800;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Poppins';
+    src: url('/assets/fonts/Poppins-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+  }
+  </style>
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+  <link rel="stylesheet" href="style.css">
+  <title>Frontend Mentor | Age calculator app</title>
 </head>
 <body>
-
-  Day
-  DD
-
-  Month
-  MM
-
-  Year
-  YYYY
-
-  -- years
-  -- months
-  -- days
   
+  <main class="main">
+    <section class="app">
+      <form class="age">
+        <div class="form-group">
+          <label for="day">DAY</label>
+          <input type="text" placeholder="DD" id="day" name="day"/>
+        </div>
+        <div class="form-group">
+          <label for="month">MONTH</label>
+          <input type="text" placeholder="MM" id="month" name="month"/>
+        </div>
+        <div class="form-group">
+          <label for="year">YEAR</label>
+          <input type="text" placeholder="YYYY" id="year" name="year"/>
+        </div>
+      </form>
+
+      <div class="middle">
+        <span class="divisor"></span>
+        <button class="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="46" height="44" viewBox="0 0 46 44"><g fill="none" stroke="#FFF" stroke-width="2"><path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"/></g>
+          </svg>
+        </button>
+        <span class="divisor"></span>
+      </div>
+
+      <div class="result">
+        <p class="years"><span class="text-purple">38</span> years</p>
+        <p class="months"><span class="text-purple">3</span> months</p>
+        <p class="days"><span class="text-purple">26</span> days</p>
+      </div>
+    </section>
+  </main>  
+
+
 </body>
 </html>
