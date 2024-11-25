@@ -184,4 +184,13 @@
         font-size: 6rem;
         grid-template-rows: 6.5rem 6.5rem 6.5rem;
     }
+
+    .error {
+        color: hsl(0, 100%, 67%);
+        font-style: italic;
+        font-weight: normal;
+        margin-left: 1rem;
+        margin-top: 0.3rem;
+        display: none;
+    }
 }

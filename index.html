@@ -57,22 +57,25 @@
     <section class="app">
       <form class="age">
         <div class="form-group">
-          <label for="day">DAY</label>
-          <input type="text" placeholder="DD" id="day" name="day"/>
+          <label for="day" id="day-label">DAY</label>
+          <input type="text" placeholder="DD" id="day" name="day" onkeydown="resetStyles('day')"/>
+          <span class="error" id="error-day"></span>
         </div>
-        <div class="form-group">
-          <label for="month">MONTH</label>
-          <input type="text" placeholder="MM" id="month" name="month"/>
+        <div class="form-group" >
+          <label for="month" id="month-label">MONTH</label>
+          <input type="text" placeholder="MM" id="month" name="month" onkeydown="resetStyles('month')"/>
+          <span class="error" id="error-month"></span>
         </div>
-        <div class="form-group">
-          <label for="year">YEAR</label>
-          <input type="text" placeholder="YYYY" id="year" name="year"/>
+        <div class="form-group" >
+          <label for="year" id="year-label">YEAR</label>
+          <input type="text" placeholder="YYYY" id="year" name="year" onkeydown="resetStyles('year')"/>
+          <span class="error" id="error-year"></span>
         </div>
       </form>
 
       <div class="middle">
         <span class="divisor"></span>
-        <button class="button">
+        <button class="button" onclick="calcAge()">
           <svg xmlns="http://www.w3.org/2000/svg" width="46" height="44" viewBox="0 0 46 44"><g fill="none" stroke="#FFF" stroke-width="2"><path d="M1 22.019C8.333 21.686 23 25.616 23 44M23 44V0M45 22.019C37.667 21.686 23 25.616 23 44"/></g>
           </svg>
         </button>
@@ -80,13 +83,111 @@
       </div>
 
       <div class="result">
-        <p class="years"><span class="text-purple">- -</span> years</p>
-        <p class="months"><span class="text-purple">- -</span> months</p>
-        <p class="days"><span class="text-purple">- -</span> days</p>
+        <p class="years"><span class="text-purple" id="result-years">- -</span> years</p>
+        <p class="months"><span class="text-purple" id="result-months">- -</span> months</p>
+        <p class="days"><span class="text-purple" id="result-days">- -</span> days</p>
       </div>
     </section>
   </main>  
 
+  <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+  <script>
 
+    const { DateTime } = luxon
+
+    const today = DateTime.now().toFormat("dd-MM-yyyy")
+
+    let input_year = document.getElementById("year")
+    let input_month = document.getElementById("month")
+    let input_day = document.getElementById("day")
+
+    function resetStyles(input_name){
+      
+      if(input_name == "year"){
+          document.getElementById("year-label").style.color = "hsl(0, 1%, 44%)"
+          input_year.style.border = "1px solid hsl(0, 0%, 86%)"
+          document.getElementById("error-year").style.display = "none"
+          document.getElementById("error-year").innerText = ""
+        }
+        if(input_name == "month"){
+          document.getElementById("month-label").style.color = "hsl(0, 1%, 44%)"
+          input_month.style.border = "1px solid hsl(0, 0%, 86%)"
+          document.getElementById("error-month").style.display = "none"
+          document.getElementById("error-month").innerText = ""
+        }
+        if(input_name == "day"){
+          document.getElementById("day-label").style.color = "hsl(0, 1%, 44%)"
+          input_day.style.border = "1px solid hsl(0, 0%, 86%)"
+          document.getElementById("error-day").style.display = "none"
+          document.getElementById("error-day").innerText = ""
+        }
+
+    }
+    
+    function calcAge() {
+      let year = input_year.value
+      let month = input_month.value
+      let day = input_day.value
+
+      resetStyles("day")
+      resetStyles("year")
+      resetStyles("month")
+
+
+      if(year === "" || month == "" || day == ""){
+
+        if(year === ""){
+          document.getElementById("year-label").style.color = "hsl(0, 100%, 67%)"
+          input_year.style.border = "1px solid hsl(0, 100%, 67%)"
+          document.getElementById("error-year").style.display = "block"
+          document.getElementById("error-year").innerText = "This field is required"
+        }
+        if(month === ""){
+          document.getElementById("month-label").style.color = "hsl(0, 100%, 67%)"
+          input_month.style.border = "1px solid hsl(0, 100%, 67%)"
+          document.getElementById("error-month").style.display = "block"
+          document.getElementById("error-month").innerText = "This field is required"
+        }
+        if(day === ""){
+          document.getElementById("day-label").style.color = "hsl(0, 100%, 67%)"
+          input_day.style.border = "1px solid hsl(0, 100%, 67%)"
+          document.getElementById("error-day").style.display = "block"
+          document.getElementById("error-day").innerText = "This field is required"
+        }
+      }
+
+      else {
+        let full_user_date = `${year}-${month.padStart(2,"0")}${day.padStart(2,"0")}`
+
+        if(!DateTime.fromISO(full_user_date).isValid){
+          const thirty_one_days = [true, false, true, false, true, false, true ,true, false, true, false, true]
+
+          if((parseInt(day) > 31  && parseInt(month) !== 2) || (parseInt(day) > 29 && parseInt(month) == 2) || (parseInt(day) > 30 && !thirty_one_days[parseInt(month)-1]) || parseInt(day) <= 0){
+            document.getElementById("day-label").style.color = "hsl(0, 100%, 67%)"
+            input_day.style.border = "1px solid hsl(0, 100%, 67%)"
+            document.getElementById("error-day").style.display = "block"
+            document.getElementById("error-day").innerText = "Must be a valid day"
+            return
+          }
+
+          if(parseInt(month) > 12 || parseInt(month) <=0){
+            document.getElementById("month-label").style.color = "hsl(0, 100%, 67%)"
+            input_month.style.border = "1px solid hsl(0, 100%, 67%)"
+            document.getElementById("error-month").style.display = "block"
+            document.getElementById("error-month").innerText = "Must be a valid month"
+            return
+          }
+        }
+
+        if(DateTime.fromISO(full_user_date) > DateTime.now()){
+            console.log("a data está no futuro")
+            return
+          }
+
+        console.log(year, month, day)
+        console.log(today)
+      }
+    }
+  </script>
 </body>
 </html>
