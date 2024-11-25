@@ -58,17 +58,17 @@
       <form class="age">
         <div class="form-group">
           <label for="day" id="day-label">DAY</label>
-          <input type="text" placeholder="DD" id="day" name="day" onkeydown="resetStyles('day')"/>
+          <input type="number" placeholder="DD" id="day" name="day" onkeydown="resetStyles('day')"/>
           <span class="error" id="error-day"></span>
         </div>
         <div class="form-group" >
           <label for="month" id="month-label">MONTH</label>
-          <input type="text" placeholder="MM" id="month" name="month" onkeydown="resetStyles('month')"/>
+          <input type="number" placeholder="MM" id="month" name="month" onkeydown="resetStyles('month')"/>
           <span class="error" id="error-month"></span>
         </div>
         <div class="form-group" >
           <label for="year" id="year-label">YEAR</label>
-          <input type="text" placeholder="YYYY" id="year" name="year" onkeydown="resetStyles('year')"/>
+          <input type="number" placeholder="YYYY" id="year" name="year" onkeydown="resetStyles('year')"/>
           <span class="error" id="error-year"></span>
         </div>
       </form>
@@ -167,7 +167,6 @@
             input_day.style.border = "1px solid hsl(0, 100%, 67%)"
             document.getElementById("error-day").style.display = "block"
             document.getElementById("error-day").innerText = "Must be a valid day"
-            return
           }
 
           if(parseInt(month) > 12 || parseInt(month) <=0){
@@ -175,17 +174,40 @@
             input_month.style.border = "1px solid hsl(0, 100%, 67%)"
             document.getElementById("error-month").style.display = "block"
             document.getElementById("error-month").innerText = "Must be a valid month"
-            return
           }
+
+          return
         }
 
         if(DateTime.fromISO(full_user_date) > DateTime.now()){
-            console.log("a data está no futuro")
+          if(parseInt(year) > DateTime.now().year){
+            document.getElementById("year-label").style.color = "hsl(0, 100%, 67%)"
+            input_year.style.border = "1px solid hsl(0, 100%, 67%)"
+            document.getElementById("error-year").style.display = "block"
+            document.getElementById("error-year").innerText = "Must be in the past"
             return
           }
 
-        console.log(year, month, day)
-        console.log(today)
+          if(parseInt(month) > DateTime.now().month){
+            document.getElementById("month-label").style.color = "hsl(0, 100%, 67%)"
+            input_month.style.border = "1px solid hsl(0, 100%, 67%)"
+            document.getElementById("error-month").style.display = "block"
+            document.getElementById("error-month").innerText = "Must be in the past"
+            return
+          }
+
+          document.getElementById("day-label").style.color = "hsl(0, 100%, 67%)"
+          input_day.style.border = "1px solid hsl(0, 100%, 67%)"
+          document.getElementById("error-day").style.display = "block"
+          document.getElementById("error-day").innerText = "Must be in the past"
+          return
+          }
+
+        let diff = DateTime.now().diff( DateTime.fromISO(full_user_date), ["days","months","years"])
+          
+        document.getElementById("result-years").innerText = `${diff.years}`
+        document.getElementById("result-months").innerText = `${diff.months}`
+        document.getElementById("result-days").innerText = `${Math.floor(diff.days)}`
       }
     }
   </script>
